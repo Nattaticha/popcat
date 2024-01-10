@@ -23,12 +23,14 @@ class MenuApp(App):
         setting_button.bind(on_press=self.open_settings)
         layout.add_widget(setting_button)
 
+        
+
         return layout
 
-class MenuApp(App):
 
     def build(self):
         self.screen_manager = ScreenManager()
+        
 
         # ... [โค้ดเดิมสำหรับสร้าง Screen สำหรับหน้าเมนูและหน้าเล่นเกม]
         # สร้าง Screen สำหรับหน้าเมนู
@@ -42,6 +44,7 @@ class MenuApp(App):
         layout.add_widget(setting_button)
         self.menu_screen.add_widget(layout)
         self.screen_manager.add_widget(self.menu_screen)
+        
 
 
         # สร้าง Screen สำหรับหน้าเล่นเกม
@@ -53,13 +56,18 @@ class MenuApp(App):
         self.play_screen.add_widget(play_layout)
         self.screen_manager.add_widget(self.play_screen)
 
-        
+        #สร้างปุ่ม confirm หลังป้อนชื่อ
+        confirm_button = Button(text="Confirm", size_hint=(1, 0.2))
+        confirm_button.bind(on_press=self.confirm_name)
+        play_layout.add_widget(confirm_button)
+
+
         # สร้าง Screen สำหรับหน้าเลือกไอคอน
         self.icon_selection_screen = Screen(name='icon_selection')
         icon_layout = GridLayout(cols=3, spacing=10, padding=10)
 
         # สร้างปุ่มไอคอน
-        icon_names = ['icon1.png', 'icon2.png', 'icon3.png']  # ระบุชื่อไฟล์ไอคอนที่คุณมี
+        icon_names = ['cat.png', 'icon2.png', 'icon3.png']  # ระบุชื่อไฟล์ไอคอนที่คุณมี
         for icon_name in icon_names:
             icon_button = Button(background_normal=icon_name, size_hint=(0.3, 0.3))
             icon_button.bind(on_press=self.select_icon)  # ผูกเชื่อมกับฟังก์ชันเลือกไอคอน
@@ -71,10 +79,22 @@ class MenuApp(App):
         return self.screen_manager
 
     def switch_to_play_screen(self, instance):
-        self.screen_manager.current = 'icon_selection'  # เปลี่ยนไปยังหน้าเลือกไอคอน
+        self.screen_manager.current = 'play' 
 
     def play_game(self, instance):
         print("Start popcat with Name:", self.name_input.text)
+        self.switch_to_icon_selection_screen()  # เมื่อเรียกใช้งานฟังก์ชันนี้ จะเปลี่ยนหน้าไปยังหน้าเลือกไอคอน
+
+    def confirm_name(self, instance):
+        name = self.name_input.text
+        if name:  # ตรวจสอบว่าชื่อถูกป้อนหรือไม่
+            print(f"Confirmed Name: {name}")
+            self.switch_to_icon_selection_screen()  # เมื่อยืนยันชื่อแล้ว จะเปลี่ยนหน้าไปยังหน้าเลือกไอคอน
+        else:
+            print("Please enter a name before confirming.")
+
+    def switch_to_icon_selection_screen(self):
+        self.screen_manager.current = 'icon_selection'  # เปลี่ยนไปยังหน้าเลือกไอคอน
 
     def open_settings(self, instance):
         print("Opensetting")
