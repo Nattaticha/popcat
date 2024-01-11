@@ -80,9 +80,17 @@ class HowToPlayScreen(Screen):
             " \n "
             " The cat will open and close its mouth with each click and make a 'popping' sound."
         )
-        how_to_play_label = Label(text=how_to_play_text,font_size = 23)
+        how_to_play_label = Label(text=how_to_play_text, font_size=23)
         how_to_play_layout.add_widget(how_to_play_label)
+
+        back_button = Button(text="Back", size_hint=(1, 0.5))
+        back_button.bind(on_press=self.go_back)
+        how_to_play_layout.add_widget(back_button)
+
         self.add_widget(how_to_play_layout)
+
+    def go_back(self, instance):
+        self.manager.current = 'menu'
 
 
 class PlayScreen(Screen):
