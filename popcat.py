@@ -71,7 +71,16 @@ class HowToPlayScreen(Screen):
     def __init__(self, **kwargs):
         super(HowToPlayScreen, self).__init__(**kwargs)
         how_to_play_layout = BoxLayout(orientation='vertical', padding=10, spacing=10)
-        how_to_play_label = Label(text="How to Play: [Your Instructions Here]")
+        how_to_play_text = (
+            " How to play Popcat?\n"
+            " \n "
+            " Popcat is pretty self-explanatory\n "
+            " \n "
+            " all you have to do is keep clicking incessantly on the cat's mouth.\n "
+            " \n "
+            " The cat will open and close its mouth with each click and make a 'popping' sound."
+        )
+        how_to_play_label = Label(text=how_to_play_text,font_size = 23)
         how_to_play_layout.add_widget(how_to_play_label)
         self.add_widget(how_to_play_layout)
 
