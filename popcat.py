@@ -7,118 +7,106 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.textinput import TextInput
 from kivy.uix.gridlayout import GridLayout
 
-#โค้ดที่ start -> icon
-class MenuApp(App):
-
-    def build(self):
+class MenuScreen(Screen):
+    def __init__(self, **kwargs):
+        super(MenuScreen, self).__init__(**kwargs)
         layout = BoxLayout(orientation='vertical', padding=10, spacing=10)
-
-        # สร้างปุ่ม Play
-        play_button = Button(text="Play", size_hint=(1, 0.5))
-        play_button.bind(on_press=self.play_game)
-        layout.add_widget(play_button)
-
-        # สร้างปุ่ม Setting
-        setting_button = Button(text="Setting", size_hint=(1, 0.5))
-        setting_button.bind(on_press=self.open_settings)
-        layout.add_widget(setting_button)
-
-        return layout
-
-
-    def build(self):
-        self.screen_manager = ScreenManager()
         
-
-        # สร้าง Screen สำหรับหน้าเมนู
-        self.menu_screen = Screen(name='menu')
-        layout = BoxLayout(orientation='vertical', padding=10, spacing=10)
         play_button = Button(text="Play", size_hint=(1, 0.5))
         play_button.bind(on_press=self.switch_to_play_screen)
         layout.add_widget(play_button)
+
         setting_button = Button(text="Setting", size_hint=(1, 0.5))
         setting_button.bind(on_press=self.open_settings)
         layout.add_widget(setting_button)
-        self.menu_screen.add_widget(layout)
-        self.screen_manager.add_widget(self.menu_screen)
-        
 
-        #สร้าง Screen สำหรับการ setting เสียง
-        self.sound_setting_screen = Screen(name='sound_setting')
+        how_to_play_button = Button(text="How to Play", size_hint=(1, 0.5))
+        how_to_play_button.bind(on_press=self.open_how_to_play)
+        layout.add_widget(how_to_play_button)
+
+        self.add_widget(layout)
+
+    def switch_to_play_screen(self, instance):
+        self.manager.current = 'play'
+
+    def open_settings(self, instance):
+        self.manager.current = 'sound_setting'
+
+    def open_how_to_play(self, instance):
+        self.manager.current = 'how_to_play'
+
+
+class SoundSettingScreen(Screen):
+    def __init__(self, **kwargs):
+        super(SoundSettingScreen, self).__init__(**kwargs)
         sound_layout = BoxLayout(orientation='vertical', padding=10, spacing=10)
         sound_label = Label(text="Sound Settings")
         sound_layout.add_widget(sound_label)
-        self.sound_setting_screen.add_widget(sound_layout)
-        self.screen_manager.add_widget(self.sound_setting_screen)
+        self.add_widget(sound_layout)
 
-        # สร้าง Screen สำหรับหน้าเล่นเกม
-        self.play_screen = Screen(name='play')
+
+class HowToPlayScreen(Screen):
+    def __init__(self, **kwargs):
+        super(HowToPlayScreen, self).__init__(**kwargs)
+        how_to_play_layout = BoxLayout(orientation='vertical', padding=10, spacing=10)
+        how_to_play_label = Label(text="How to Play: [Your Instructions Here]")
+        how_to_play_layout.add_widget(how_to_play_label)
+        self.add_widget(how_to_play_layout)
+
+
+class PlayScreen(Screen):
+    def __init__(self, **kwargs):
+        super(PlayScreen, self).__init__(**kwargs)
         play_layout = BoxLayout(orientation='vertical', padding=10, spacing=10)
         play_layout.add_widget(Label(text="Enter your name:"))
         self.name_input = TextInput(hint_text="Enter Name", size_hint=(1, 0.2))
         play_layout.add_widget(self.name_input)
-        self.play_screen.add_widget(play_layout)
-        self.screen_manager.add_widget(self.play_screen)
-
-
-        #สร้างปุ่ม confirm หลังป้อนชื่อ
         confirm_button = Button(text="Confirm", size_hint=(1, 0.2))
         confirm_button.bind(on_press=self.confirm_name)
         play_layout.add_widget(confirm_button)
-
-
-        # สร้าง Screen สำหรับหน้าเลือกไอคอน
-        self.icon_selection_screen = Screen(name='icon_selection')
-        icon_layout = GridLayout(cols=3, spacing=10, padding=10)
-
-        # สร้างปุ่มไอคอน
-        icon_names = ['cat.png', 'icon2.png', 'icon3.png']  # ระบุชื่อไฟล์ไอคอนที่คุณมี
-        for icon_name in icon_names:
-            icon_button = Button(background_normal=icon_name, size_hint=(0.3, 0.3))
-            icon_button.bind(on_press=self.select_icon)  # ผูกเชื่อมกับฟังก์ชันเลือกไอคอน
-            icon_layout.add_widget(icon_button)
-
-        self.icon_selection_screen.add_widget(icon_layout)
-        self.screen_manager.add_widget(self.icon_selection_screen)
-
-        return self.screen_manager
-
-    def switch_to_play_screen(self, instance):
-        self.screen_manager.current = 'play' 
-
-    def play_game(self, instance):
-        print("Start popcat with Name:", self.name_input.text)
-        self.switch_to_icon_selection_screen()  # เมื่อเรียกใช้งานฟังก์ชันนี้ จะเปลี่ยนหน้าไปยังหน้าเลือกไอคอน
+        self.add_widget(play_layout)
 
     def confirm_name(self, instance):
         name = self.name_input.text
-        if name:  # ตรวจสอบว่าชื่อถูกป้อนหรือไม่
+        if name:
             print(f"Confirmed Name: {name}")
-            self.switch_to_icon_selection_screen()  # เมื่อยืนยันชื่อแล้ว จะเปลี่ยนหน้าไปยังหน้าเลือกไอคอน
+            self.manager.current = 'icon_selection'
         else:
             print("Please enter a name before confirming.")
 
-    def on_touch_down(self, touch):
-        if isinstance(touch.ud.get('origin'), TextInput):
-            # ถ้าปุ่ม "Confirm" ถูกกด
-            if 'Confirm' in touch.ud.get('origin', '').text:
-                self.confirm_name(touch.ud.get('origin'))
 
-
-    def switch_to_icon_selection_screen(self):
-        self.screen_manager.current = 'icon_selection'  # เปลี่ยนไปยังหน้าเลือกไอคอน
-
-
-    def open_settings(self, instance):
-        self.screen_manager.current = 'sound_setting'
-
+class IconSelectionScreen(Screen):
+    def __init__(self, **kwargs):
+        super(IconSelectionScreen, self).__init__(**kwargs)
+        icon_layout = GridLayout(cols=3, spacing=10, padding=10)
+        icon_names = ['cat.png', 'icon2.png', 'icon3.png']
+        for icon_name in icon_names:
+            icon_button = Button(background_normal=icon_name, size_hint=(0.3, 0.3))
+            icon_button.bind(on_press=self.select_icon)
+            icon_layout.add_widget(icon_button)
+        self.add_widget(icon_layout)
 
     def select_icon(self, instance):
         print(f"Selected icon: {instance.background_normal}")
 
 
+class MenuApp(App):
+    def build(self):
+        self.screen_manager = ScreenManager()
+
+        self.menu_screen = MenuScreen(name='menu')
+        self.sound_setting_screen = SoundSettingScreen(name='sound_setting')
+        self.how_to_play_screen = HowToPlayScreen(name='how_to_play')
+        self.play_screen = PlayScreen(name='play')
+        self.icon_selection_screen = IconSelectionScreen(name='icon_selection')
+
+        self.screen_manager.add_widget(self.menu_screen)
+        self.screen_manager.add_widget(self.sound_setting_screen)
+        self.screen_manager.add_widget(self.how_to_play_screen)
+        self.screen_manager.add_widget(self.play_screen)
+        self.screen_manager.add_widget(self.icon_selection_screen)
+
+        return self.screen_manager
 
 if __name__ == "__main__":
     MenuApp().run()
-
-
