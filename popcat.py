@@ -41,15 +41,15 @@ class SoundSettingScreen(Screen):
         super(SoundSettingScreen, self).__init__(**kwargs)
         self.sound_on = True  # เพิ่มตัวแปรสถานะสำหรับเสียง
 
-        sound_layout = BoxLayout(orientation='vertical', padding=10, spacing=10)
+        sound_layout = BoxLayout(orientation='vertical', padding=10, spacing=20)
         sound_label = Label(text="Sound Settings")
         sound_layout.add_widget(sound_label)
 
-        audio_button = Button(text="Audio On" if self.sound_on else "Audio Off", size_hint=(1, 0.5))
+        audio_button = Button(text="Audio On" if self.sound_on else "Audio Off", size_hint=(1, 4))
         audio_button.bind(on_press=self.toggle_audio)
         sound_layout.add_widget(audio_button)
 
-        back_button = Button(text="Back", size_hint=(1, 0.5))
+        back_button = Button(text="Back", size_hint=(1, 4))
         back_button.bind(on_press=self.go_back)
         sound_layout.add_widget(back_button)
 
