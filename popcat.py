@@ -60,12 +60,13 @@ class SoundSettingScreen(Screen):
         instance.text = "Audio On" if self.sound_on else "Audio Off"
         # เพิ่มโค้ดเพื่อทำงานเมื่อเปิดหรือปิดเสียง
         if self.sound_on:
-            print("Audio is now ON")
+            print("Audio is now Off")
         else:
-            print("Audio is now OFF")
+            print("Audio is now On")
 
     def go_back(self, instance):
         self.manager.current = 'menu'
+        
 class HowToPlayScreen(Screen):
     def __init__(self, **kwargs):
         super(HowToPlayScreen, self).__init__(**kwargs)
