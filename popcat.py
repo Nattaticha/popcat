@@ -104,10 +104,16 @@ class PlayScreen(Screen):
     def __init__(self, **kwargs):
         super(PlayScreen, self).__init__(**kwargs)
         play_layout = BoxLayout(orientation='vertical', padding=10, spacing=10)
+        
+        backgroundImage = 'background_entername.png'
+        self.playlayout = Button(text='Let PLAY', font_size=100, size_hint=(None, None), size=(1200, 400))
+        self.playlayout.background_normal = backgroundImage  # แก้ชื่อ attribute จาก background_normal1 เป็น background_normal
+        play_layout.add_widget(self.playlayout)
+
         play_layout.add_widget(Label(text="Enter your name:"))
-        self.name_input = TextInput(hint_text="Enter Name", size_hint=(1, 0.2))
+        self.name_input = TextInput(hint_text="Enter Name", size_hint=(1, 1))
         play_layout.add_widget(self.name_input)
-        confirm_button = Button(text="Confirm", size_hint=(1, 0.2))
+        confirm_button = Button(text="Confirm", size_hint=(1,1.5))
         confirm_button.bind(on_press=self.confirm_name)
         play_layout.add_widget(confirm_button)
         self.add_widget(play_layout)
@@ -119,6 +125,7 @@ class PlayScreen(Screen):
             self.manager.current = 'icon_selection'
         else:
             print("Please enter a name before confirming.")
+
 
 
 class IconSelectionScreen(Screen):
