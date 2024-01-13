@@ -6,21 +6,28 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.textinput import TextInput
 from kivy.uix.gridlayout import GridLayout
+from kivy.uix.image import Image
 
 class MenuScreen(Screen):
     def __init__(self, **kwargs):
         super(MenuScreen, self).__init__(**kwargs)
         layout = BoxLayout(orientation='vertical', padding=10, spacing=10)
         
-        play_button = Button(text="Play", size_hint=(1, 0.5))
-        play_button.bind(on_press=self.switch_to_play_screen)
-        layout.add_widget(play_button)
+        backgroundImage = 'background1.png'
+        self.game_name = Button(text='Pop Cat', font_size=100, size_hint=(None, None), size=(1200, 400))
+        self.game_name.background_normal = backgroundImage  # แก้ชื่อ attribute จาก background_normal1 เป็น background_normal
+        layout.add_widget(self.game_name)
 
-        setting_button = Button(text="Setting", size_hint=(1, 0.5))
+        self.play_button = Button(text="Play", size_hint=(1, 0.2))
+        self.play_button.bind(on_press=self.switch_to_play_screen)
+        self.play_button.background_color = (250/255, 255/255, 250/255, 1)
+        layout.add_widget(self.play_button)
+
+        setting_button = Button(text="Setting", size_hint=(1, 0.2))
         setting_button.bind(on_press=self.open_settings)
         layout.add_widget(setting_button)
 
-        how_to_play_button = Button(text="How to Play", size_hint=(1, 0.5))
+        how_to_play_button = Button(text="How to Play", size_hint=(1, 0.2))
         how_to_play_button.bind(on_press=self.open_how_to_play)
         layout.add_widget(how_to_play_button)
 
@@ -118,7 +125,7 @@ class IconSelectionScreen(Screen):
     def __init__(self, **kwargs):
         super(IconSelectionScreen, self).__init__(**kwargs)
         icon_layout = GridLayout(cols=3, spacing=10, padding=10)
-        icon_names = ['cat.png', 'icon2.png', 'icon3.png']
+        icon_names = ['popcat1.png', 'icon2.png', 'icon3.png']
         for icon_name in icon_names:
             icon_button = Button(background_normal=icon_name, size_hint=(0.3, 0.3))
             icon_button.bind(on_press=self.select_icon)
