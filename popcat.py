@@ -7,6 +7,7 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.textinput import TextInput
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.image import Image
+import os
 
 class MenuScreen(Screen):
     def __init__(self, **kwargs):
@@ -41,7 +42,6 @@ class MenuScreen(Screen):
 
     def open_how_to_play(self, instance):
         self.manager.current = 'how_to_play'
-
 
 class SoundSettingScreen(Screen):
     def __init__(self, **kwargs):
@@ -126,22 +126,34 @@ class PlayScreen(Screen):
         else:
             print("Please enter a name before confirming.")
 
-
-
 class IconSelectionScreen(Screen):
     def __init__(self, **kwargs):
         super(IconSelectionScreen, self).__init__(**kwargs)
-        icon_layout = GridLayout(cols=3, spacing=10, padding=10)
-        icon_names = ['popcat1.png', 'icon2.png', 'icon3.png']
-        for icon_name in icon_names:
-            icon_button = Button(background_normal=icon_name, size_hint=(0.3, 0.3))
+        icon_layout = BoxLayout(orientation='vertical', spacing=10, padding=10)
+
+        # Set the main image for the first button
+        image_path = os.path.join(os.path.dirname(__file__), 'iconcat4.png')
+        icon_button1 = Button(size_hint=(None, None), size=(100, 100), background_normal=image_path)
+        icon_button1.bind(on_press=self.select_icon)
+        icon_layout.add_widget(icon_button1)
+
+        # Set other buttons with placeholder images
+        placeholder_names = ['iconcat1.png', 'iconcat2.png', 'iconcat3.png']
+        for placeholder_name in placeholder_names:
+            icon_button = Button(size_hint=(None, None), size=(100, 100), background_normal=placeholder_name)
             icon_button.bind(on_press=self.select_icon)
             icon_layout.add_widget(icon_button)
+
         self.add_widget(icon_layout)
 
     def select_icon(self, instance):
         print(f"Selected icon: {instance.background_normal}")
 
+class IconButton(Button):
+    def __init__(self, image, **kwargs):
+        super(IconButton, self).__init__(**kwargs)
+        self.add_widget(image)
+        self.image = image  # Store the Image widget for later access
 
 class MenuApp(App):
     def build(self):
