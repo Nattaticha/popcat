@@ -8,6 +8,8 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.image import Image
 import os
+from kivy.core.window import Window
+
 
 class MenuScreen(Screen):
     def __init__(self, **kwargs):
@@ -89,7 +91,6 @@ class HowToPlayScreen(Screen):
         )
         how_to_play_label = Label(text=how_to_play_text, font_size=23)
         how_to_play_layout.add_widget(how_to_play_label)
-
         back_button = Button(text="Back", size_hint=(1, 0.5))
         back_button.bind(on_press=self.go_back)
         how_to_play_layout.add_widget(back_button)
@@ -99,6 +100,10 @@ class HowToPlayScreen(Screen):
     def go_back(self, instance):
         self.manager.current = 'menu'
 
+class EnterNameScreen(Screen):
+    def __init__(self, **kwargs):
+        super(EnterNameScreen, self).__init__(**kwargs)
+        layout = BoxLayout(orientation='vertical', padding=10, spacing=10)
 
 class PlayScreen(Screen):
     def __init__(self, **kwargs):
@@ -107,47 +112,67 @@ class PlayScreen(Screen):
         
         backgroundImage = 'background_entername.png'
         self.playlayout = Button(text='Let PLAY', font_size=100, size_hint=(None, None), size=(1200, 400))
-        self.playlayout.background_normal = backgroundImage  # แก้ชื่อ attribute จาก background_normal1 เป็น background_normal
+        self.playlayout.background_normal = backgroundImage
         play_layout.add_widget(self.playlayout)
 
         play_layout.add_widget(Label(text="Enter your name:"))
         self.name_input = TextInput(hint_text="Enter Name", size_hint=(1, 1))
         play_layout.add_widget(self.name_input)
-        confirm_button = Button(text="Confirm", size_hint=(1,1.5))
+
+        # Fix here: Change 'layout' to 'play_layout'
+        confirm_button = Button(text="Confirm", size_hint=(1, 1.5))
         confirm_button.bind(on_press=self.confirm_name)
         play_layout.add_widget(confirm_button)
         self.add_widget(play_layout)
+        
+        
 
     def confirm_name(self, instance):
         name = self.name_input.text
         if name:
             print(f"Confirmed Name: {name}")
+            self.manager.get_screen('icon_selection').set_player_name(name)
             self.manager.current = 'icon_selection'
         else:
             print("Please enter a name before confirming.")
 
+
 class IconSelectionScreen(Screen):
     def __init__(self, **kwargs):
         super(IconSelectionScreen, self).__init__(**kwargs)
-        icon_layout = BoxLayout(orientation='vertical', spacing=10, padding=10)
+        
+        # Vertical BoxLayout to stack elements vertically
+        main_layout = BoxLayout(orientation='vertical', spacing=10, padding=10, size_hint=(1, 1))
+
+        # Label to display the username
+        self.username_label = Label(text=" username: ", font_size=20, size_hint=(1, None), height=50)
+        main_layout.add_widget(self.username_label)
+
+        # Horizontal BoxLayout to center icon buttons
+        icon_layout = BoxLayout(orientation='horizontal', spacing=10, padding=10, size_hint=(1, 1))
 
         # Set the main image for the first button
         image_path = os.path.join(os.path.dirname(__file__), 'iconcat4.png')
-        icon_button1 = Button(size_hint=(None, None), size=(100, 100), background_normal=image_path)
-        icon_button1.bind(on_press=self.select_icon)
-        icon_layout.add_widget(icon_button1)
+        self.icon_button1 = Button(size_hint=(None, None), size=(150, 150), background_normal=image_path)
+        self.icon_button1.bind(on_press=self.select_icon)
+        icon_layout.add_widget(self.icon_button1)
 
         # Set other buttons with placeholder images
         placeholder_names = ['iconcat1.png', 'iconcat2.png', 'iconcat3.png']
         for placeholder_name in placeholder_names:
-            icon_button = Button(size_hint=(None, None), size=(100, 100), background_normal=placeholder_name)
+            icon_button = Button(size_hint=(None, None), size=(150, 150), background_normal=placeholder_name)
             icon_button.bind(on_press=self.select_icon)
             icon_layout.add_widget(icon_button)
 
-        self.add_widget(icon_layout)
+        main_layout.add_widget(icon_layout)
+        self.add_widget(main_layout)
+
+    def set_player_name(self, name):
+        self.username_label.text = f" player: {name}"
 
     def select_icon(self, instance):
-        print(f"Selected icon: {instance.background_normal}")
+        selected_icon_path = instance.background_normal
+        print(f"Selected icon: {selected_icon_path}")
 
 class IconButton(Button):
     def __init__(self, image, **kwargs):
