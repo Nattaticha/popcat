@@ -17,25 +17,25 @@ class MenuScreen(Screen):
         layout = BoxLayout(orientation='vertical', padding=10, spacing=10)
         
         backgroundImage = 'background1.png'
-        self.game_name = Button(text='Pop Cat', font_size=100, size_hint=(None, None), size=(1200, 400))
+        self.game_name = Button(text='Pop Cat', font_size=100, size_hint=(1, None), size=(1200, 400))
         self.game_name.background_normal = backgroundImage
         layout.add_widget(self.game_name)
 
-        self.play_button = Button(text="Play", size_hint=(1, 0.2))
+        self.play_button = Button(text="Play !", font_size= 25,size_hint=(1, 0.2))
         self.play_button.bind(on_press=self.switch_to_play_screen)
         # Fix here: Set background_color and color for the "Play" button
         self.play_button.background_color = (0, 1, 0, 1)
         self.play_button.color = (1, 1, 1, 1)
         layout.add_widget(self.play_button)
 
-        setting_button = Button(text="Setting", size_hint=(1, 0.2))
+        setting_button = Button(text="Setting",font_size= 25, size_hint=(1, 0.2))
         setting_button.bind(on_press=self.open_settings)
         # Fix here: Set background_color and color for the "Setting" button
         setting_button.background_color = (0.5, 0.5, 0.5, 1)
         setting_button.color = (1, 1, 1, 1)
         layout.add_widget(setting_button)
 
-        how_to_play_button = Button(text="How to Play", size_hint=(1, 0.2))
+        how_to_play_button = Button(text="How to Play ?", font_size= 25,size_hint=(1, 0.2))
         how_to_play_button.bind(on_press=self.open_how_to_play)
         # Fix here: Set background_color and color for the "How to Play" button
         how_to_play_button.background_color = (1, 0, 0, 1)
@@ -58,15 +58,22 @@ class SoundSettingScreen(Screen):
         super(SoundSettingScreen, self).__init__(**kwargs)
         self.sound_on = True  # เพิ่มตัวแปรสถานะสำหรับเสียง
 
-        sound_layout = BoxLayout(orientation='vertical', padding=10, spacing=20)
-        sound_label = Label(text="Sound Settings")
-        sound_layout.add_widget(sound_label)
+        backgroundImage = 'setting.png'
+        self.setting = Button(text='Sound Setting', font_size=100, size_hint=(1,None), size=(1200, 400), color=(0,0,0,1))
+        self.setting.background_normal = backgroundImage
 
-        audio_button = Button(text="Audio On" if self.sound_on else "Audio Off", size_hint=(1, 4))
+        # Fix here: Create a new BoxLayout for sound_layout
+        sound_layout = BoxLayout(orientation='vertical', padding=10, spacing=20)
+        sound_layout.add_widget(self.setting)  # Add self.setting to sound_layout
+
+        # # sound_label = Label(text="Sound Settings")
+        # sound_layout.add_widget(sound_label)
+
+        audio_button = Button(text="Audio On" if self.sound_on else "Audio Off", font_size=30,size_hint=(1, 3))
         audio_button.bind(on_press=self.toggle_audio)
         sound_layout.add_widget(audio_button)
 
-        back_button = Button(text="Back", size_hint=(1, 4))
+        back_button = Button(text="Back",font_size=30, size_hint=(1, 2))
         back_button.bind(on_press=self.go_back)
         sound_layout.add_widget(back_button)
 
@@ -88,8 +95,17 @@ class HowToPlayScreen(Screen):
     def __init__(self, **kwargs):
         super(HowToPlayScreen, self).__init__(**kwargs)
         how_to_play_layout = BoxLayout(orientation='vertical', padding=10, spacing=10)
+        
+        backgroundImage = 'how_to_play.png'
+        
+        # Fix here: Create a new Button instance for how_to_play
+        self.how_to_play = Button()
+        self.how_to_play.background_normal = backgroundImage
+        self.add_widget(self.how_to_play)  # Fix here: Use self instead of layout
+
         how_to_play_text = (
             " How to play Popcat?\n"
+            " \n "
             " \n "
             " Popcat is pretty self-explanatory\n "
             " \n "
@@ -97,10 +113,11 @@ class HowToPlayScreen(Screen):
             " \n "
             " The cat will open and close its mouth with each click and make a 'popping' sound."
         )
-        how_to_play_label = Label(text=how_to_play_text, font_size=23)
+        how_to_play_label = Label(text=how_to_play_text, font_size=25, color=(1, 0, 1, 1))
         how_to_play_layout.add_widget(how_to_play_label)
 
-        back_button = Button(text="Back", size_hint=(1, 0.5))
+        # Fix here: Set background_color for the "Back" button
+        back_button = Button(text="Back", size_hint=(1, 0.1), background_color=(1, 0.68, 1, 1))
         back_button.bind(on_press=self.go_back)
         how_to_play_layout.add_widget(back_button)
 
@@ -108,6 +125,8 @@ class HowToPlayScreen(Screen):
 
     def go_back(self, instance):
         self.manager.current = 'menu'
+
+    
 
 class EnterNameScreen(Screen):
     def __init__(self, **kwargs):
@@ -119,17 +138,21 @@ class PlayScreen(Screen):
         super(PlayScreen, self).__init__(**kwargs)
         play_layout = BoxLayout(orientation='vertical', padding=10, spacing=10)
         
-        backgroundImage = 'background_entername.png'
-        self.playlayout = Button(text='Let PLAY', font_size=100, size_hint=(None, None), size=(1200, 400))
+        backgroundImage = 'entername.png'
+        self.playlayout = Button(text='Let play -w-', font_size=100, size_hint=(1, None), size=(1200, 400))
         self.playlayout.background_normal = backgroundImage
+
+        # Fix here: Set color for the "Let PLAY" text
+        self.playlayout.color = (0, 0, 0, 1)  # Black text
+
         play_layout.add_widget(self.playlayout)
 
-        play_layout.add_widget(Label(text="Enter your name:"))
-        self.name_input = TextInput(hint_text="Enter Name", size_hint=(1, 1))
+        play_layout.add_widget(Label(text="Enter your meaw name :", font_size = 25))
+        self.name_input = TextInput(hint_text="Enter Name", font_size = 30,size_hint=(1, 1.5))
         play_layout.add_widget(self.name_input)
 
         # Fix here: Change 'layout' to 'play_layout'
-        confirm_button = Button(text="Confirm", size_hint=(1, 1.5))
+        confirm_button = Button(text="Confirm", size_hint=(1, 0.75))
         confirm_button.bind(on_press=self.confirm_name)
 
         # Fix here: Set background_color and color for the "Confirm" button
