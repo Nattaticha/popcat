@@ -9,6 +9,7 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.image import Image
 import os
 from kivy.core.window import Window
+from kivy.uix.widget import Widget 
 
 
 class MenuScreen(Screen):
@@ -174,35 +175,57 @@ class PlayScreen(Screen):
 class IconSelectionScreen(Screen):
     def __init__(self, **kwargs):
         super(IconSelectionScreen, self).__init__(**kwargs)
+
+        backgroundImage = 'selection1.png'
         
+        # Create an instance of Button as iconselection
+        self.iconselection = Button()
+        self.iconselection.background_normal = backgroundImage
+        self.add_widget(self.iconselection) 
+
         # Vertical BoxLayout to stack elements vertically
         main_layout = BoxLayout(orientation='vertical', spacing=10, padding=10, size_hint=(1, 1))
 
         # Label to display the username
-        self.username_label = Label(text=" username: ", font_size=20, size_hint=(1, None), height=50)
+        self.username_label = Label(text="Username: ", font_size=20, size_hint=(1, None), height=50)
         main_layout.add_widget(self.username_label)
 
         # Horizontal BoxLayout to center icon buttons
         icon_layout = BoxLayout(orientation='horizontal', spacing=10, padding=10, size_hint=(1, 1))
 
+        # Add a Label for icon selection
+        select_icon_label = Label(text="Select your icon", font_size=30, size_hint=(1, None), height=100)
+        main_layout.add_widget(select_icon_label)
+
         # Set the main image for the first button
         image_path = os.path.join(os.path.dirname(__file__), 'iconcat4.png')
-        self.icon_button1 = Button(size_hint=(None, None), size=(150, 150), background_normal=image_path)
+        self.icon_button1 = Button(size_hint=(None, None), size=(200, 200), background_normal=image_path)
         self.icon_button1.bind(on_press=self.select_icon)
+
+        
+
         icon_layout.add_widget(self.icon_button1)
 
         # Set other buttons with placeholder images
         placeholder_names = ['iconcat1.png', 'iconcat2.png', 'iconcat3.png']
         for placeholder_name in placeholder_names:
-            icon_button = Button(size_hint=(None, None), size=(150, 150), background_normal=placeholder_name)
+            icon_button = Button(size_hint=(1, None), size=(200, 200), background_normal=placeholder_name)
+
+            # Fix here: Set background_color for other buttons
+            icon_button.background_color = (1, 1, 1, 1)  # White background
+
             icon_button.bind(on_press=self.select_icon)
             icon_layout.add_widget(icon_button)
 
         main_layout.add_widget(icon_layout)
+
+        # Fix here: Center the icon_layout horizontally
+        main_layout.add_widget(Widget())  # Spacer
         self.add_widget(main_layout)
 
     def set_player_name(self, name):
-        self.username_label.text = f" player: {name}"
+        self.username_label.text = f"Player: {name}"
+        self.username_label.font_size = 30
 
     def select_icon(self, instance):
         selected_icon_path = instance.background_normal
