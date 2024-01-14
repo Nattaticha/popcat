@@ -18,20 +18,28 @@ class MenuScreen(Screen):
         
         backgroundImage = 'background1.png'
         self.game_name = Button(text='Pop Cat', font_size=100, size_hint=(None, None), size=(1200, 400))
-        self.game_name.background_normal = backgroundImage  # แก้ชื่อ attribute จาก background_normal1 เป็น background_normal
+        self.game_name.background_normal = backgroundImage
         layout.add_widget(self.game_name)
 
         self.play_button = Button(text="Play", size_hint=(1, 0.2))
         self.play_button.bind(on_press=self.switch_to_play_screen)
-        self.play_button.background_color = (250/255, 255/255, 250/255, 1)
+        # Fix here: Set background_color and color for the "Play" button
+        self.play_button.background_color = (0, 1, 0, 1)
+        self.play_button.color = (1, 1, 1, 1)
         layout.add_widget(self.play_button)
 
         setting_button = Button(text="Setting", size_hint=(1, 0.2))
         setting_button.bind(on_press=self.open_settings)
+        # Fix here: Set background_color and color for the "Setting" button
+        setting_button.background_color = (0.5, 0.5, 0.5, 1)
+        setting_button.color = (1, 1, 1, 1)
         layout.add_widget(setting_button)
 
         how_to_play_button = Button(text="How to Play", size_hint=(1, 0.2))
         how_to_play_button.bind(on_press=self.open_how_to_play)
+        # Fix here: Set background_color and color for the "How to Play" button
+        how_to_play_button.background_color = (1, 0, 0, 1)
+        how_to_play_button.color = (1, 1, 1, 1)
         layout.add_widget(how_to_play_button)
 
         self.add_widget(layout)
@@ -91,6 +99,7 @@ class HowToPlayScreen(Screen):
         )
         how_to_play_label = Label(text=how_to_play_text, font_size=23)
         how_to_play_layout.add_widget(how_to_play_label)
+
         back_button = Button(text="Back", size_hint=(1, 0.5))
         back_button.bind(on_press=self.go_back)
         how_to_play_layout.add_widget(back_button)
@@ -122,10 +131,13 @@ class PlayScreen(Screen):
         # Fix here: Change 'layout' to 'play_layout'
         confirm_button = Button(text="Confirm", size_hint=(1, 1.5))
         confirm_button.bind(on_press=self.confirm_name)
+
+        # Fix here: Set background_color and color for the "Confirm" button
+        confirm_button.background_color = (0, 1, 0, 1)  # Green background
+        confirm_button.color = (1, 1, 1, 1)  # White text
+
         play_layout.add_widget(confirm_button)
         self.add_widget(play_layout)
-        
-        
 
     def confirm_name(self, instance):
         name = self.name_input.text
@@ -135,7 +147,6 @@ class PlayScreen(Screen):
             self.manager.current = 'icon_selection'
         else:
             print("Please enter a name before confirming.")
-
 
 class IconSelectionScreen(Screen):
     def __init__(self, **kwargs):
