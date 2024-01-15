@@ -172,54 +172,55 @@ class PlayScreen(Screen):
         else:
             print("Please enter a name before confirming.")
 
+
 class IconSelectionScreen(Screen):
     def __init__(self, **kwargs):
         super(IconSelectionScreen, self).__init__(**kwargs)
 
         backgroundImage = 'selection1.png'
         
-        # Create an instance of Button as iconselection
+        # สร้าง Button เป็น iconselection
         self.iconselection = Button()
         self.iconselection.background_normal = backgroundImage
         self.add_widget(self.iconselection) 
 
-        # Vertical BoxLayout to stack elements vertically
+        # Vertical BoxLayout เพื่อวางองค์ประกอบในแนวตั้ง
         main_layout = BoxLayout(orientation='vertical', spacing=10, padding=10, size_hint=(1, 1))
 
-        # Label to display the username
+        # Label สำหรับแสดงชื่อผู้ใช้
         self.username_label = Label(text="Username: ", font_size=20, size_hint=(1, None), height=50)
         main_layout.add_widget(self.username_label)
 
-        # Horizontal BoxLayout to center icon buttons
+        # Horizontal BoxLayout เพื่อจัดกลางปุ่มไอคอน
         icon_layout = BoxLayout(orientation='horizontal', spacing=10, padding=10, size_hint=(1, 1))
 
-        # Add a Label for icon selection
+        # เพิ่ม Label สำหรับการเลือกไอคอน
         select_icon_label = Label(text="Select your icon", font_size=30, size_hint=(1, None), height=100)
         main_layout.add_widget(select_icon_label)
 
-        # Set the main image for the first button
+        # ตั้งค่ารูปหลักสำหรับปุ่มแรก
         image_path = os.path.join(os.path.dirname(__file__), 'iconcat4.png')
         self.icon_button1 = Button(size_hint=(None, None), size=(200, 200), background_normal=image_path)
         self.icon_button1.bind(on_press=self.select_icon)
 
-        
-
         icon_layout.add_widget(self.icon_button1)
 
-        # Set other buttons with placeholder images
+        # ตั้งค่าปุ่มอื่นๆด้วยรูปภาพที่ให้ไว้ตั้งต้น
         placeholder_names = ['iconcat1.png', 'iconcat2.png', 'iconcat3.png']
         for placeholder_name in placeholder_names:
             icon_button = Button(size_hint=(1, None), size=(200, 200), background_normal=placeholder_name)
 
-            # Fix here: Set background_color for other buttons
-            icon_button.background_color = (1, 1, 1, 1)  # White background
+            # แก้ไขที่นี่: ตั้งค่า background_color สำหรับปุ่มอื่นๆ
+            icon_button.background_color = (1, 1, 1, 1)  # พื้นหลังสีขาว
 
             icon_button.bind(on_press=self.select_icon)
             icon_layout.add_widget(icon_button)
 
+        # เพิ่มตัวแปรเพื่อเก็บที่อยู่ของไอคอนที่เลือก
+        self.selected_icon_path = None
         main_layout.add_widget(icon_layout)
 
-        # Fix here: Center the icon_layout horizontally
+        # แก้ไขที่นี่: จัดกลาง icon_layout ในทิศทางนอน
         main_layout.add_widget(Widget())  # Spacer
         self.add_widget(main_layout)
 
@@ -230,6 +231,31 @@ class IconSelectionScreen(Screen):
     def select_icon(self, instance):
         selected_icon_path = instance.background_normal
         print(f"Selected icon: {selected_icon_path}")
+
+        # (แก้ไขที่นี่) เมื่อเลือกไอคอน เรียกเมธอด set_selected_icon_path
+        self.set_selected_icon_path(selected_icon_path)
+
+        # (แก้ไขที่นี่) เรียกเมธอด switch_to_next_screen
+        self.switch_to_next_screen()
+
+    # (เพิ่มเมธอดใหม่)
+    def set_selected_icon_path(self, selected_icon_path):
+        self.selected_icon_path = selected_icon_path
+
+    def switch_to_next_screen(self):
+        # (แก้ไขที่นี่) ถ้าเลือกไอคอนแล้วให้สลับไปยังหน้าถัดไป (icon_selected_screen)
+        if self.selected_icon_path:
+            icon_selected_screen = SelectedIconScreen(icon_path=self.selected_icon_path, name='icon_selected')
+            self.manager.add_widget(icon_selected_screen)
+            self.manager.current = 'icon_selected'  # แก้ไขตรงนี้
+
+class SelectedIconScreen(Screen):
+    def __init__(self, icon_path, **kwargs):
+        super(SelectedIconScreen, self).__init__(**kwargs)
+        
+        # แสดงไอคอนที่เลือก
+        selected_icon = Image(source=icon_path)
+        self.add_widget(selected_icon)
 
 class IconButton(Button):
     def __init__(self, image, **kwargs):
