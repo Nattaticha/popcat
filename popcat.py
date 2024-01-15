@@ -246,7 +246,6 @@ class IconSelectionScreen(Screen):
             print(f"Selected icon: {selected_icon_path}")
             self.set_selected_icon_path(selected_icon_path)
             
-            # เพิ่มโค้ดต่อไปนี้เพื่อแสดงหน้า CatScreen02 เมื่อกดปุ่ม iconcat2.png
             if selected_icon_path.endswith('iconcat3.png'):
                 self.manager.current = 'cat_screen03'
             else:
@@ -257,7 +256,7 @@ class IconSelectionScreen(Screen):
             print(f"Selected icon: {selected_icon_path}")
             self.set_selected_icon_path(selected_icon_path)
             
-            # เพิ่มโค้ดต่อไปนี้เพื่อแสดงหน้า CatScreen02 เมื่อกดปุ่ม iconcat2.png
+            
             if selected_icon_path.endswith('iconcat4.png'):
                 self.manager.current = 'cat_screen04'
             else:
@@ -284,7 +283,7 @@ class CatScreen(Screen):
             self.cat_button.background_normal = 'iconcat1_1.png'
             self.current_image = 1
             self.check_answer(instance)  # เพิ่มเพื่อตรวจสอบคำตอบ
-        # Clock.schedule_interval(self.change_cat_image, 1)
+        
 
     def change_cat_image(self, dt):
         # เปลี่ยนรูปแมวทุก 1000 มิลลิวินาที
@@ -485,6 +484,7 @@ class MenuApp(App):
         self.background_music = SoundLoader.load('C:\\Users\\ASUS\\Desktop\\241-152\\learn_kivy\\venv\\kivyproject\\catsong.mp3')  
         if self.background_music:
             self.background_music.play()
+
         return self.screen_manager
 
 if __name__ == "__main__":
