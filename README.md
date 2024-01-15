@@ -1,11 +1,6 @@
 # POP CAAT Game
 --------------------------------
-
-  ╱|、
-(`   -  7
- |、⁻〵
-じしˍ,)ノ
-
+ /ᐠ｡‸｡ᐟ\
 --------------------------------
 
 This is a simple POPCAT game implemented in Python using the Kivy framework.  Popcat is pretty self-explanatory – all you have to do is keep clicking incessantly on the cat's mouth. The cat will open and close its mouth with each click. 
