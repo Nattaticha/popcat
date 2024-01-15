@@ -67,4 +67,4 @@ Note: Ensure that you have the required audio files for a complete gaming experi
 
 Feel free to explore, enjoy the POP CAT game, and have fun!
 
-HAVE NICE (EVERY)DAYS!!!
+#HAVE NICE (EVERY)DAYS!!!
