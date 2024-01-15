@@ -182,18 +182,29 @@ class IconSelectionScreen(Screen):
         select_icon_label = Label(text="Select your icon", font_size=30, size_hint=(1, None), height=100)
         main_layout.add_widget(select_icon_label)
 
-        image_path = os.path.join(os.path.dirname(__file__), 'iconcat4.png')
+        image_path = os.path.join(os.path.dirname(__file__), 'iconcat1.png')
         self.icon_button1 = Button(size_hint=(None, None), size=(200, 200), background_normal=image_path)
         self.icon_button1.bind(on_press=self.select_icon)
-
         icon_layout.add_widget(self.icon_button1)
+        
 
-        placeholder_names = ['iconcat1.png', 'iconcat2.png', 'iconcat3.png']
-        for placeholder_name in placeholder_names:
-            icon_button = Button(size_hint=(1, None), size=(200, 200), background_normal=placeholder_name)
-            icon_button.background_color = (1, 1, 1, 1)
-            icon_button.bind(on_press=self.select_icon)
-            icon_layout.add_widget(icon_button)
+        image_path = os.path.join(os.path.dirname(__file__), 'iconcat2.png')
+        self.icon_button2 = Button(size_hint=(None, None), size=(200, 200), background_normal=image_path)
+        self.icon_button2.bind(on_press=self.select_icon)
+        icon_layout.add_widget(self.icon_button2)
+
+        image_path = os.path.join(os.path.dirname(__file__), 'iconcat3.png')
+        self.icon_button3 = Button(size_hint=(None, None), size=(200, 200), background_normal=image_path)
+        self.icon_button3.bind(on_press=self.select_icon)
+        icon_layout.add_widget(self.icon_button3)
+
+
+        image_path = os.path.join(os.path.dirname(__file__), 'iconcat4.png')
+        self.icon_button4 = Button(size_hint=(None, None), size=(200, 200), background_normal=image_path)
+        self.icon_button4.bind(on_press=self.select_icon)
+        icon_layout.add_widget(self.icon_button4)
+
+
 
         self.selected_icon_path = None
         main_layout.add_widget(icon_layout)
@@ -208,21 +219,63 @@ class IconSelectionScreen(Screen):
         selected_icon_path = instance.background_normal
         print(f"Selected icon: {selected_icon_path}")
         self.set_selected_icon_path(selected_icon_path)
-        self.switch_to_next_screen()
+        
+        # เพิ่มโค้ดต่อไปนี้เพื่อแสดงหน้า CatScreen เมื่อกดปุ่ม iconcat1.png
+        if selected_icon_path.endswith('iconcat1.png'):
+            self.manager.current = 'cat_screen'
+        else:
+            self.CatScreen()
 
     def set_selected_icon_path(self, selected_icon_path):
         self.selected_icon_path = selected_icon_path
 
+
+'''
     def switch_to_next_screen(self):
         if self.selected_icon_path:
             icon_selected_screen = SelectedIconScreen(icon_path=self.selected_icon_path, name='icon_selected')
             self.manager.add_widget(icon_selected_screen)
             self.manager.current = 'icon_selected'
+'''
+class CatScreen(Screen):
+    def __init__(self, **kwargs):
+        super(CatScreen, self).__init__(**kwargs)
+        self.cat_button = Button(background_normal='iconcat1.png', on_press=self.on_cat_button_press)
+        self.add_widget(self.cat_button)
+        self.current_image = 1  # 1 หมายถึงรูปแมวที่ 1
 
+        
+    def on_cat_button_press(self, instance):
+        # ทำงานเมื่อปุ่มถูกกด
+        if self.current_image == 1:
+            self.cat_button.background_normal = 'iconcat2.png'
+            self.current_image = 2
+        else:
+            self.cat_button.background_normal = 'iconcat1.png'
+            self.current_image = 1
+        
+        # Clock.schedule_interval(self.change_cat_image, 1)
+
+    def change_cat_image(self, dt):
+        # เปลี่ยนรูปแมวทุก 1000 มิลลิวินาที
+        if self.current_image == 1:
+            self.cat_button.background_normal = 'iconcat2.png'
+            self.current_image = 2
+        else:
+            self.cat_button.background_normal = 'iconcat1.png'
+            self.current_image = 1
+
+class CatApp(App):
+    def build(self):
+        sm = ScreenManager()
+        cat_screen = CatScreen(name='cat_screen')
+        sm.add_widget(cat_screen)
+        return sm
+                
 class SelectedIconScreen(Screen):
     def __init__(self, icon_path, **kwargs):
         super(SelectedIconScreen, self).__init__(**kwargs)
-        selected_icon = Image(source=icon_path)
+        selected_icon = Image(source=icon_path, size_hint=(1, 1), allow_stretch=True)
         self.add_widget(selected_icon)
 
 class IconButton(Button):
@@ -241,12 +294,15 @@ class MenuApp(App):
         self.play_screen = PlayScreen(name='play')
         self.icon_selection_screen = IconSelectionScreen(name='icon_selection')
 
+        self.cat_screen = CatScreen(name='cat_screen')
+
         self.screen_manager.add_widget(self.menu_screen)
         self.screen_manager.add_widget(self.sound_setting_screen)
         self.screen_manager.add_widget(self.how_to_play_screen)
         self.screen_manager.add_widget(self.play_screen)
         self.screen_manager.add_widget(self.icon_selection_screen)
-
+        self.screen_manager.add_widget(self.cat_screen)
+        
         self.background_music = SoundLoader.load('C:\\Users\\ASUS\\Desktop\\241-152\\learn_kivy\\venv\\kivyproject\\catsong.mp3')  
         if self.background_music:
             self.background_music.play()
