@@ -66,3 +66,5 @@ To run POP CAT game, you need to have Python and Kivy installed on your system. 
 Note: Ensure that you have the required audio files for a complete gaming experience. Adjust the file paths accordingly.
 
 Feel free to explore, enjoy the POP CAT game, and have fun!
+
+HAVE NICE (EVERY)DAYS!!!
