@@ -357,10 +357,10 @@ class CatScreen04(Screen):
     def on_cat_button_press(self, instance):
         # ทำงานเมื่อปุ่มถูกกด
         if self.current_image == 1:
-            self.cat_button.background_normal = 'iconcat2.png'
+            self.cat_button.background_normal = 'iconcat4.png'
             self.current_image = 2
         else:
-            self.cat_button.background_normal = 'iconcat1.png'
+            self.cat_button.background_normal = 'iconcat4_4.png'
             self.current_image = 1
         
 
