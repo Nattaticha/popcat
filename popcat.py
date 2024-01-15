@@ -306,7 +306,7 @@ class CatScreen02(Screen):
             self.cat_button.background_normal = 'iconcat2.png'
             self.current_image = 2
         else:
-            self.cat_button.background_normal = 'iconcat1.png'
+            self.cat_button.background_normal = 'iconcat2_2.png'
             self.current_image = 1
         
 
