@@ -270,6 +270,8 @@ class CatScreen(Screen):
         self.cat_button = Button(background_normal='iconcat1.png', on_press=self.on_cat_button_press)
         self.add_widget(self.cat_button)
         self.current_image = 1  # 1 หมายถึงรูปแมวที่ 1
+        self.score_label = Label(text="Score : 0", font_size=40, color=(1, 1, 1, 1))
+        self.add_widget(self.score_label)
 
         
     def on_cat_button_press(self, instance):
@@ -277,10 +279,11 @@ class CatScreen(Screen):
         if self.current_image == 1:
             self.cat_button.background_normal = 'iconcat1.png'
             self.current_image = 2
+            self.check_answer(instance)  # เพิ่มเพื่อตรวจสอบคำตอบ
         else:
             self.cat_button.background_normal = 'iconcat1_1.png'
             self.current_image = 1
-        
+            self.check_answer(instance)  # เพิ่มเพื่อตรวจสอบคำตอบ
         # Clock.schedule_interval(self.change_cat_image, 1)
 
     def change_cat_image(self, dt):
@@ -292,22 +295,35 @@ class CatScreen(Screen):
             self.cat_button.background_normal = 'iconcat1.png'
             self.current_image = 1
 
+    def check_answer(self, instance):
+        score = int(self.score_label.text.split()[-1])
+        if self.current_image == 1:
+            score += 1
+            self.score_label.text = f"Score : {score}"
+
+    #ResetScore
+    def reset_score(self):
+            self.score_label.text = "Score : 0"
+
 class CatScreen02(Screen):
     def __init__(self, **kwargs):
         super(CatScreen02, self).__init__(**kwargs)
         self.cat_button = Button(background_normal='iconcat2.png', on_press=self.on_cat_button_press)
         self.add_widget(self.cat_button)
         self.current_image = 1  # 1 หมายถึงรูปแมวที่ 1
-
+        self.score_label = Label(text="Score : 0", font_size=40, color=(1, 1, 1, 1))
+        self.add_widget(self.score_label)
         
     def on_cat_button_press(self, instance):
         # ทำงานเมื่อปุ่มถูกกด
         if self.current_image == 1:
-            self.cat_button.background_normal = 'iconcat2.png'
-            self.current_image = 2
-        else:
             self.cat_button.background_normal = 'iconcat2_2.png'
+            self.current_image = 2
+            self.check_answer(instance)  # เพิ่มเพื่อตรวจสอบคำตอบ
+        else:
+            self.cat_button.background_normal = 'iconcat2.png'
             self.current_image = 1
+            self.check_answer(instance)  # เพิ่มเพื่อตรวจสอบคำตอบ
         
 
     def change_cat_image(self, dt):
@@ -318,6 +334,17 @@ class CatScreen02(Screen):
         else:
             self.cat_button.background_normal = 'iconcat1.png'
             self.current_image = 1
+
+    def check_answer(self, instance):
+        score = int(self.score_label.text.split()[-1])
+        if self.current_image == 1:
+            score += 1
+            self.score_label.text = f"Score : {score}"
+
+    #ResetScore
+    def reset_score(self):
+            self.score_label.text = "Score : 0"
+
 
 class CatScreen03(Screen):
     def __init__(self, **kwargs):
@@ -325,16 +352,20 @@ class CatScreen03(Screen):
         self.cat_button = Button(background_normal='iconcat3.png', on_press=self.on_cat_button_press)
         self.add_widget(self.cat_button)
         self.current_image = 1  # 1 หมายถึงรูปแมวที่ 1
+        self.score_label = Label(text="Score : 0", font_size=40, color=(1, 1, 1, 1))
+        self.add_widget(self.score_label)
 
         
     def on_cat_button_press(self, instance):
         # ทำงานเมื่อปุ่มถูกกด
         if self.current_image == 1:
-            self.cat_button.background_normal = 'iconcat3.png'
-            self.current_image = 2
-        else:
             self.cat_button.background_normal = 'iconcat3_3.png'
+            self.current_image = 2
+            self.check_answer(instance)  # เพิ่มเพื่อตรวจสอบคำตอบ
+        else:
+            self.cat_button.background_normal = 'iconcat3.png'
             self.current_image = 1
+            self.check_answer(instance)  # เพิ่มเพื่อตรวจสอบคำตอบ
         
 
     def change_cat_image(self, dt):
@@ -345,6 +376,17 @@ class CatScreen03(Screen):
         else:
             self.cat_button.background_normal = 'iconcat1.png'
             self.current_image = 1
+
+    def check_answer(self, instance):
+        score = int(self.score_label.text.split()[-1])
+        if self.current_image == 1:
+            score += 1
+            self.score_label.text = f"Score : {score}"
+
+    #ResetScore
+    def reset_score(self):
+            self.score_label.text = "Score : 0"
+
 
 class CatScreen04(Screen):
     def __init__(self, **kwargs):
@@ -352,16 +394,20 @@ class CatScreen04(Screen):
         self.cat_button = Button(background_normal='iconcat4.png', on_press=self.on_cat_button_press)
         self.add_widget(self.cat_button)
         self.current_image = 1  # 1 หมายถึงรูปแมวที่ 1
+        self.score_label = Label(text="Score : 0", font_size=40, color=(1, 1, 1, 1))
+        self.add_widget(self.score_label)
 
         
     def on_cat_button_press(self, instance):
         # ทำงานเมื่อปุ่มถูกกด
         if self.current_image == 1:
-            self.cat_button.background_normal = 'iconcat4.png'
-            self.current_image = 2
-        else:
             self.cat_button.background_normal = 'iconcat4_4.png'
+            self.current_image = 2
+            self.check_answer(instance)  # เพิ่มเพื่อตรวจสอบคำตอบ
+        else:
+            self.cat_button.background_normal = 'iconcat4.png'
             self.current_image = 1
+            self.check_answer(instance)  # เพิ่มเพื่อตรวจสอบคำตอบ
         
 
     def change_cat_image(self, dt):
@@ -372,6 +418,16 @@ class CatScreen04(Screen):
         else:
             self.cat_button.background_normal = 'iconcat1.png'
             self.current_image = 1
+
+    def check_answer(self, instance):
+        score = int(self.score_label.text.split()[-1])
+        if self.current_image == 1:
+            score += 1
+            self.score_label.text = f"Score : {score}"
+
+    #ResetScore
+    def reset_score(self):
+            self.score_label.text = "Score : 0"
 
 
 
