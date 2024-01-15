@@ -201,7 +201,7 @@ class IconSelectionScreen(Screen):
 
         image_path = os.path.join(os.path.dirname(__file__), 'iconcat4.png')
         self.icon_button4 = Button(size_hint=(None, None), size=(200, 200), background_normal=image_path)
-        self.icon_button4.bind(on_press=self.select_icon)
+        self.icon_button4.bind(on_press=self.select_icon04)
         icon_layout.add_widget(self.icon_button4)
 
 
@@ -249,6 +249,17 @@ class IconSelectionScreen(Screen):
             # เพิ่มโค้ดต่อไปนี้เพื่อแสดงหน้า CatScreen02 เมื่อกดปุ่ม iconcat2.png
             if selected_icon_path.endswith('iconcat3.png'):
                 self.manager.current = 'cat_screen03'
+            else:
+                self.manager.current = 'cat_screen'
+
+    def select_icon04(self, instance):
+            selected_icon_path = instance.background_normal
+            print(f"Selected icon: {selected_icon_path}")
+            self.set_selected_icon_path(selected_icon_path)
+            
+            # เพิ่มโค้ดต่อไปนี้เพื่อแสดงหน้า CatScreen02 เมื่อกดปุ่ม iconcat2.png
+            if selected_icon_path.endswith('iconcat4.png'):
+                self.manager.current = 'cat_screen04'
             else:
                 self.manager.current = 'cat_screen'
 
@@ -335,6 +346,33 @@ class CatScreen03(Screen):
             self.cat_button.background_normal = 'iconcat1.png'
             self.current_image = 1
 
+class CatScreen04(Screen):
+    def __init__(self, **kwargs):
+        super(CatScreen04, self).__init__(**kwargs)
+        self.cat_button = Button(background_normal='iconcat4.png', on_press=self.on_cat_button_press)
+        self.add_widget(self.cat_button)
+        self.current_image = 1  # 1 หมายถึงรูปแมวที่ 1
+
+        
+    def on_cat_button_press(self, instance):
+        # ทำงานเมื่อปุ่มถูกกด
+        if self.current_image == 1:
+            self.cat_button.background_normal = 'iconcat2.png'
+            self.current_image = 2
+        else:
+            self.cat_button.background_normal = 'iconcat1.png'
+            self.current_image = 1
+        
+
+    def change_cat_image(self, dt):
+        # เปลี่ยนรูปแมวทุก 1000 มิลลิวินาที
+        if self.current_image == 1:
+            self.cat_button.background_normal = 'iconcat2.png'
+            self.current_image = 2
+        else:
+            self.cat_button.background_normal = 'iconcat1.png'
+            self.current_image = 1
+
 
 
 class CatApp(App):
@@ -343,9 +381,12 @@ class CatApp(App):
         cat_screen = CatScreen(name='cat_screen')
         cat_screen02 = CatScreen02(name='cat_screen02')
         cat_screen03 = CatScreen03(name='cat_screen03')
+        cat_screen04 = CatScreen04(name='cat_screen04')
+
         sm.add_widget(cat_screen)
         sm.add_widget(cat_screen02)
         sm.add_widget(cat_screen03)
+        sm.add_widget(cat_screen04)
         return sm
                 
 class SelectedIconScreen(Screen):
@@ -373,6 +414,7 @@ class MenuApp(App):
         self.cat_screen = CatScreen(name='cat_screen')
         self.cat_screen02 = CatScreen02(name='cat_screen02')
         self.cat_screen03 = CatScreen03(name='cat_screen03')
+        self.cat_screen04 = CatScreen04(name='cat_screen04')
         
         self.screen_manager.add_widget(self.menu_screen)
         self.screen_manager.add_widget(self.sound_setting_screen)
@@ -382,6 +424,7 @@ class MenuApp(App):
         self.screen_manager.add_widget(self.cat_screen)
         self.screen_manager.add_widget(self.cat_screen02)
         self.screen_manager.add_widget(self.cat_screen03)
+        self.screen_manager.add_widget(self.cat_screen04)
 
         self.background_music = SoundLoader.load('C:\\Users\\ASUS\\Desktop\\241-152\\learn_kivy\\venv\\kivyproject\\catsong.mp3')  
         if self.background_music:
