@@ -485,7 +485,6 @@ class MenuApp(App):
         self.background_music = SoundLoader.load('C:\\Users\\ASUS\\Desktop\\241-152\\learn_kivy\\venv\\kivyproject\\catsong.mp3')  
         if self.background_music:
             self.background_music.play()
-
         return self.screen_manager
 
 if __name__ == "__main__":
