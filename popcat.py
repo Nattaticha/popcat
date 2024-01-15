@@ -77,10 +77,15 @@ class SoundSettingScreen(Screen):
     def toggle_audio(self, instance):
         self.sound_on = not self.sound_on
         instance.text = "Audio On" if self.sound_on else "Audio Off"
+        
         if self.sound_on:
-            print("Audio is now Off")
-        else:
             print("Audio is now On")
+            if not App.get_running_app().background_music.state == 'play':
+                App.get_running_app().background_music.play()
+        else:
+            print("Audio is now Off")
+            if App.get_running_app().background_music.state == 'play':
+                App.get_running_app().background_music.stop()
 
     def go_back(self, instance):
         self.manager.current = 'menu'
